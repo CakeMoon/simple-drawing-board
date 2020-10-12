@@ -129,13 +129,14 @@ clear_canvas = () => {
     strokeWeight(0.5);
     textSize(12);
     fill(50);
+    var distance = Math.floor(min(canvas_width, canvas_height)/4);
     texts.push(text('/ meter', 30, margin_top-17));
-    for (var i = 0; i*200 < max(canvas_width, canvas_height); i+=1) {
+    for (var i = 0; i<max(canvas_width, canvas_height)/distance; i+=1) {
         textSize(24);
-        texts.push(text(i, i*200+10, margin_top-17));
-        if (i !== 0) texts.push(text(i, 10, i*200+34));
-        line(0, i*200, canvas_width, i*200);
-        line(i*200, 0, i*200, canvas_height);
+        texts.push(text(i, i*distance+10, margin_top-17));
+        if (i !== 0) texts.push(text(i, 10, i*distance+34));
+        line(0, i*distance, canvas_width, i*distance);
+        line(i*distance, 0, i*distance, canvas_height);
     }
 
 }
@@ -147,26 +148,28 @@ set_title_text = (new_text) => {
 
 
 init = function () {
-    canvas_width = windowWidth-margin_left-margin_right;
-    canvas_height = windowHeight-margin_top-margin_bottom;
+    console.log(windowWidth)
+    console.log(windowHeight)
+    canvas_width = max(windowWidth-margin_left-margin_right, 600);
+    canvas_height = max(windowHeight-margin_top-margin_bottom, 400);
     canvas = createCanvas(canvas_width, canvas_height);
     canvas.position(margin_left, margin_top)
 
     reset_button = createButton('reset');
-    reset_button.position(margin_right, windowHeight-margin_bottom-25);
+    reset_button.position(margin_right, canvas_height+margin_top-25);
     reset_button.mousePressed(reset);
 
     buttons.push(reset_button);
 
     // color(158, 196 ,218, 80)
     undo_button = createButton('undo');
-    undo_button.position(margin_right, windowHeight-margin_bottom-55);
+    undo_button.position(margin_right, canvas_height+margin_top-55);
     undo_button.mousePressed(undo);
 
     buttons.push(undo_button);
 
     model_sel = createSelect();
-    model_sel.position(margin_right, windowHeight-margin_bottom-85);
+    model_sel.position(margin_right, canvas_height+margin_top-85);
     for (var i=0;i<CLASS_LIST.length;i++) {
       model_sel.option(CLASS_LIST[i]);
     }
@@ -253,7 +256,7 @@ function setup() {
 }
 
 function draw() {
-    frameRate(60);
+    frameRate(1);
     clear_canvas();
     hover();
     plan.drawPlan();
