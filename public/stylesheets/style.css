@@ -4,10 +4,33 @@ body {
 }
 
 .fixed {
-  color: #91abb3;
+  color: #d1c3ba;
   font-family: Consolas;
   font-size: 12px;
   position:absolute;
-  bottom:80px;
-  right:150px;
+  top:195px;
+  left: 150px;
+}
+
+a:visited {
+  color: #d1c3ba;
+}
+
+a:link {
+  color: #d1c3ba;
+}
+
+/* visited link */
+a:visited {
+  color: #91abb3;
+}
+
+/* mouse over link */
+a:hover {
+  color: #2c96d4;
+}
+
+/* selected link */
+a:active {
+  color:#fc7c55;
 }

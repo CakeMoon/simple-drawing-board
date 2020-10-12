@@ -151,7 +151,7 @@ init = function () {
     console.log(windowWidth)
     console.log(windowHeight)
     canvas_width = max(windowWidth-margin_left-margin_right, 600);
-    canvas_height = max(windowHeight-margin_top-margin_bottom, 400);
+    canvas_height = max(windowHeight-margin_top-margin_bottom, 600);
     canvas = createCanvas(canvas_width, canvas_height);
     canvas.position(margin_left, margin_top)
 
