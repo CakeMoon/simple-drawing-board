@@ -1,0 +1,13 @@
+body {
+  padding: 0; 
+  margin: 0;
+}
+
+.fixed {
+  color: #91abb3;
+  font-family: Consolas;
+  font-size: 12px;
+  position:absolute;
+  bottom:80px;
+  right:150px;
+}

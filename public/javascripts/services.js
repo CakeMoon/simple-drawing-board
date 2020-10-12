@@ -110,9 +110,6 @@ const margin_left = 450;
 const margin_right = 150;
 
 clear_canvas = () => {
-    github = createA('https://github.com/CakeMoon/simple-drawing-board', '<visit on github>');
-    //github.position(margin.margin_left+canvas_width, margin_top+canvas_height)
-
     canvas.clear();
     texts = [];
     noFill();
@@ -129,7 +126,7 @@ clear_canvas = () => {
     textSize(12);
     fill(50);
     texts.push(text('/ meter', 30, margin_top-17));
-    for (var i = 0; i*200 < canvas_width; i+=1) {
+    for (var i = 0; i*200 < max(canvas_width, canvas_height); i+=1) {
         textSize(24);
         texts.push(text(i, i*200+10, margin_top-17));
         if (i !== 0) texts.push(text(i, 10, i*200+34));
@@ -220,7 +217,16 @@ init = function () {
     text_title.style("height", "75px");
     set_title_text(title_text);
 
-
+    github = createA('https://github.com/CakeMoon/simple-drawing-board', '<visit on github>');
+    text_title.position(margin_right, margin_top-19);
+    text_title.style("font-family", "Consolas");
+    text_title.style("font-size", "20px");
+    text_title.style("background-color", "#ffffff");
+    text_title.style("color", "#fc7c55"); // ff990a
+    text_title.style("border", "1px solid #000000");
+    text_title.style("width", "278px");
+    text_title.style("display", "inline");
+    text_title.style("height", "75px");
 }
 
 hover = () => {
