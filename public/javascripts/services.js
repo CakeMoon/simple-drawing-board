@@ -92,6 +92,8 @@ var s_color = '#eb565c';
 var line_width;
 var canvas_width, canvas_height;
 var canvas;
+var texts = [];
+var github;
 
 var currentClass = "boundary";
 
@@ -108,7 +110,11 @@ const margin_left = 450;
 const margin_right = 150;
 
 clear_canvas = () => {
+    github = createA('https://github.com/CakeMoon/simple-drawing-board', '<visit on github>');
+    //github.position(margin.margin_left+canvas_width, margin_top+canvas_height)
+
     canvas.clear();
+    texts = [];
     noFill();
     stroke(100, 100, 100);
     strokeWeight(1);
@@ -119,10 +125,16 @@ clear_canvas = () => {
     
     // grid
     stroke(179, 179, 179);
-    strokeWeight(0.5)
-    for (var i = 0; i < canvas_width; i+=200) {
-        line(i, 0, i, canvas_height);
-        line(0, i, canvas_width, i);
+    strokeWeight(0.5);
+    textSize(12);
+    fill(50);
+    texts.push(text('/ meter', 30, margin_top-17));
+    for (var i = 0; i*200 < canvas_width; i+=1) {
+        textSize(24);
+        texts.push(text(i, i*200+10, margin_top-17));
+        if (i !== 0) texts.push(text(i, 10, i*200+34));
+        line(0, i*200, canvas_width, i*200);
+        line(i*200, 0, i*200, canvas_height);
     }
 
 }
@@ -185,15 +197,16 @@ init = function () {
     });
 
 
-    user_input = createInput("name...");
+    user_input = createInput("Please enter your email...");
     user_input.position(margin_right, margin_top+85);
-    user_input.style("font-size", "18px");
+    user_input.style("font-size", "16px");
     user_input.style("font-family", "Consolas");
-    user_input.style("color", "#fa461a");
+    user_input.style("color", "#d1bca7");
     user_input.style("background-color", "#ffffff");
     user_input.style("border", "1px solid #b5b5b5");
     user_input.style("width", "274px");
     user_input.style("height", "22px");
+    user_input.input(InputEvent);
 
     text_title = createP(title_text);
     text_title.position(margin_right, margin_top-19);
@@ -206,6 +219,30 @@ init = function () {
     text_title.style("display", "inline");
     text_title.style("height", "75px");
     set_title_text(title_text);
+
+
+}
+
+hover = () => {
+    buttons.forEach(button => {
+        button.mouseOver(() => {button.style("background-color", "#a8e4ed")});
+        button.mouseOut(() => {button.style("background-color", "#ffffff")});
+    });
+    model_sel.mouseOver(() => {model_sel.style("background-color", "#a8e4ed")});
+    model_sel.mouseOut(() => {model_sel.style("background-color", "#ffffff")});
+    user_input.mouseOver(() => {user_input.style("border", "2px solid #2c96d4")});
+    user_input.mouseOut(() => {user_input.style("border", "1px solid #000000")});
+    text_title.mouseOver(() => {text_title.style("background-color", "#a8e4ed")});
+    text_title.mouseOut(() => {text_title.style("background-color", "#ffffff")});
+
+    if (inCanvas()) {
+        noFill();
+        stroke('#2c96d4');
+        strokeWeight(5);
+        // canvas frame
+        rectMode(CORNERS);
+        rect(0, 0, canvas_width, canvas_height);
+    }
 }
 
 // Setup UI
@@ -218,6 +255,7 @@ function setup() {
 function draw() {
     frameRate(60);
     clear_canvas();
+    hover();
     plan.drawPlan();
 }
 
@@ -272,6 +310,10 @@ model_sel_event = () => {
     currentClass = model_sel.value();
 }
 
+InputEvent = () => {
+    user_input.style("color", "#fa461a");
+}
+
 //////////////////////////////////////////////
 function showResponse(axiosResponse) {
     const fullResponse = axiosResponse.response === undefined
@@ -291,8 +333,8 @@ function submitHome(fields) {
       .catch(showResponse);
   }
 
-  function submitCamera(fields) {
+function submitCamera(fields) {
     axios.post('/api/cameras/', fields)
-      .then(showResponse)
-      .catch(showResponse);
-  }
+        .then(showResponse)
+        .catch(showResponse);
+}
