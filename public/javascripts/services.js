@@ -256,7 +256,7 @@ function setup() {
 }
 
 function draw() {
-    frameRate(1);
+    frameRate(60);
     clear_canvas();
     hover();
     plan.drawPlan();
