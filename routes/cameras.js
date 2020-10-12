@@ -1,0 +1,34 @@
+const express = require('express');
+
+const Cameras = require('../models/Cameras');
+
+const router = express.Router();
+
+
+/**
+ * Create a Camera or Update a Camera of a user.
+ * @name POST/api/cameras
+ * @prop {string} user - user
+ * @prop {numbers[]]} x - x
+ * @prop {numbers[]]} y - y
+ * @return {Camera} - the created Camera
+ */
+router.post('/', (req, res) => {
+  if (req.body.user.length === 0) {
+    res.status(400).json({ message: 'The user name must be at least 1 character.' });
+  } else {
+
+    if (Cameras.findOne(req.body.user) === undefined) {
+      const camera = Cameras.addOne(req.body.user, req.body.x, req.body.y);
+      res.status(200).json({camera, message: "successfully created!"}).end();
+    } else {
+      const oldCamera = Cameras.findOne(req.body.user);
+      // Updated!
+      const camera = Cameras.updateOne(req.body.user, req.body.x, req.body.y);
+      res.status(200).json({camera, message: "successfully updated!" }).end();
+    }
+  }
+  });
+
+
+module.exports = router;

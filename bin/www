@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 const app = require('../app');
-const debug = require('debug')('fritter-starter:server');
+const debug = require('debug')('simple-drawing-board:server');
 const http = require('http');
 
 /**
@@ -63,7 +63,7 @@ function onError(error) {
       throw error;
   }
 }
-
+ 
 
 /**
  * Event listener for HTTP server "listening" event.
