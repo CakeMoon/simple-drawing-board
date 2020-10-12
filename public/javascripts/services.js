@@ -109,6 +109,10 @@ const margin_bottom = 100;
 const margin_left = 450;
 const margin_right = 150;
 
+var postFunctions = {'boundary': submitHome, 'desk': submitDesk, 'chair': submitChair, 'camera': submitCamera, 'other': submitOther};
+
+/////////////////////////////////////////////////////////
+
 clear_canvas = () => {
     canvas.clear();
     texts = [];
@@ -217,16 +221,6 @@ init = function () {
     text_title.style("height", "75px");
     set_title_text(title_text);
 
-    github = createA('https://github.com/CakeMoon/simple-drawing-board', '<visit on github>');
-    text_title.position(margin_right, margin_top-19);
-    text_title.style("font-family", "Consolas");
-    text_title.style("font-size", "20px");
-    text_title.style("background-color", "#ffffff");
-    text_title.style("color", "#fc7c55"); // ff990a
-    text_title.style("border", "1px solid #000000");
-    text_title.style("width", "278px");
-    text_title.style("display", "inline");
-    text_title.style("height", "75px");
 }
 
 hover = () => {
@@ -237,7 +231,7 @@ hover = () => {
     model_sel.mouseOver(() => {model_sel.style("background-color", "#a8e4ed")});
     model_sel.mouseOut(() => {model_sel.style("background-color", "#ffffff")});
     user_input.mouseOver(() => {user_input.style("border", "2px solid #2c96d4")});
-    user_input.mouseOut(() => {user_input.style("border", "1px solid #000000")});
+    user_input.mouseOut(() => {user_input.style("border", "1px solid #b5b5b5")});
     text_title.mouseOver(() => {text_title.style("background-color", "#a8e4ed")});
     text_title.mouseOut(() => {text_title.style("background-color", "#ffffff")});
 
@@ -308,7 +302,7 @@ reset = () => {
 submit = () => {
     CLASS_LIST.forEach(className => {
         const fields = {'user': user_input.value(), 'x': plan.getAllX(className), 'y': plan.getAllY(className)};
-        submitHome(fields);
+        postFunctions[className](fields);
     });
 }
 
@@ -330,7 +324,7 @@ function showResponse(axiosResponse) {
         status: fullResponse.status,
         statusText: fullResponse.statusText,
       };
-    set_title_text(abridgedResponse.data.home.user + '\'s home is ' + abridgedResponse.data.message);
+    set_title_text(abridgedResponse.data.message);
   }
 
 function submitHome(fields) {
@@ -341,6 +335,24 @@ function submitHome(fields) {
 
 function submitCamera(fields) {
     axios.post('/api/cameras/', fields)
+        .then(showResponse)
+        .catch(showResponse);
+}
+
+function submitChair(fields) {
+    axios.post('/api/chairs/', fields)
+        .then(showResponse)
+        .catch(showResponse);
+}
+
+function submitDesk(fields) {
+    axios.post('/api/desks/', fields)
+        .then(showResponse)
+        .catch(showResponse);
+}
+
+function submitOther(fields) {
+    axios.post('/api/others/', fields)
         .then(showResponse)
         .catch(showResponse);
 }

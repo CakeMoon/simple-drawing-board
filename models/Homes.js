@@ -21,8 +21,6 @@ class Homes {
      */
     static addOne(user, x, y) {
       const home = {user, x, y};
-      console.log("!!!!!!!");
-      console.log(home);
       if (Homes.findOne(user) != undefined) {
         return undefined;
       } 
